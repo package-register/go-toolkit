@@ -67,15 +67,15 @@ jobs:
           name: "Release ${{ steps.version.outputs.version }}"
           body: |
             ## 🚀 Release ${{ steps.version.outputs.version }}
-            
+
             ### 📦 Changes
             - Automated release from tag ${{ steps.version.outputs.version }}
-            
+
             ### 🔗 Installation
             ```bash
             go get github.com/package-register/go-toolkit@${{ steps.version.outputs.version }}
             ```
-            
+
             ### 📋 Modules
             - **build**: Cross-platform build tools
             - **cache**: In-memory caching with concurrency safety
@@ -85,7 +85,7 @@ jobs:
             - **trans**: Translation service integration
             - **image**: Image processing and timetable generation
             - **discovery**: Network service discovery
-            
+
             ---
             🦄 Made with ❤️ by oAo Team
           draft: false
@@ -125,16 +125,16 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
         run: |
           VERSION="${{ needs.release.outputs.version }}"
-          
+
           # Set binary name based on OS
           if [ "$GOOS" = "windows" ]; then
             BINARY_NAME="go-toolkit-${VERSION}-${GOOS}-${GOARCH}.exe"
           else
             BINARY_NAME="go-toolkit-${VERSION}-${GOOS}-${GOARCH}"
           fi
-          
+
           echo "Building for $GOOS/$GOARCH..."
-          
+
           # Build main binary (if exists)
           if [ -f "cmd/main.go" ]; then
             go build -ldflags "-s -w -X main.version=$VERSION" \
@@ -168,7 +168,7 @@ jobs:
     name: Update Go Module
     runs-on: ubuntu-latest
     needs: release
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -183,13 +183,13 @@ jobs:
       - name: Update Go Module
         run: |
           VERSION="${{ needs.release.outputs.version }}"
-          
+
           # Update go.mod with new version
           echo "Updating go.mod for version $VERSION"
-          
+
           # Tidy dependencies
           go mod tidy
-          
+
           # Commit changes if any
           if [[ -n $(git status --porcelain) ]]; then
             git config --local user.email "action@github.com"
@@ -203,14 +203,14 @@ jobs:
         run: |
           VERSION="${{ needs.release.outputs.version }}"
           echo "Triggering Go module reindex at proxy.golang.org"
-          curl -sSf "https://proxy.golang.org/github.com/${{ github.repository,,}}/@v/${VERSION}.info" || true
+          curl -sSf "https://proxy.golang.org/github.com/${{ github.repository }}/@v/${VERSION}.info" || true
 
   notify:
     name: Notify Completion
     runs-on: ubuntu-latest
     needs: [release, build, update-go-mod]
     if: always()
-    
+
     steps:
       - name: Release Summary
         run: |
