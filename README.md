@@ -227,6 +227,10 @@ go-toolkit/
 ├── image/          # 图像处理
 ├── discovery/      # 服务发现
 ├── zerotier/       # ZeroTier SDK
+├── docs/           # 开发文档
+│   ├── README.md   # 文档索引
+│   ├── github-actions.md  # GitHub Actions 指南
+│   └── github-cli.md      # GitHub CLI 指南
 ├── examples/       # 使用示例
 ├── .github/        # GitHub Actions
 ├── Makefile        # 构建脚本
