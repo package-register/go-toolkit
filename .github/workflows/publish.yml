@@ -90,12 +90,15 @@ jobs:
             - **trans**: Translation service integration
             - **image**: Image processing and timetable generation
             - **discovery**: Network service discovery
+            - **zerotier**: ZeroTier network management API
 
             ---
             🦄 Made with ❤️ by oAo Team
           draft: false
           prerelease: false
           generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build:
     name: Build Binaries
